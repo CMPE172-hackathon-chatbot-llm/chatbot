@@ -18,4 +18,4 @@ prompt = st.chat_input('Pass Your Prompt Here')
 # If the user hits enter then
 if prompt:
     # Display the prompt
-    st.chat_message('user').markdown(prompt_)
+    st.chat_message('user').markdown(prompt)
