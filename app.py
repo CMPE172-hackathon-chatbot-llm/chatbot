@@ -7,7 +7,7 @@ from langchain.text_splitter import RecursiveCharacterTextSplitter
 # Bring in Streamlit for UI dev
 import streamlit as st
 # Bring in watson interface
-#from watsonxlangchain import LangChainInterface
+from watsonxlangchain import LangChainInterface
 
 #create llm thru langchain
 creds = {
