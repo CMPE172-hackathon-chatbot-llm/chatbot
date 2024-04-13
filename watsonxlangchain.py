@@ -5,12 +5,14 @@ from typing import Any, List, Mapping, Optional, Union, Dict
 from pydantic import BaseModel, Extra
 from ibm_watson_machine_learning.foundation_models import Model
 
+class CommonMeta(type(LLM), type(BaseModel)):
+    pass
 
-class LangChainInterface(LLM, BaseModel):
+class LangChainInterface(LLM, BaseModel, metaclass=CommonMeta):
     credentials: Optional[Dict] = None
     model: Optional[str] = None
     params: Optional[Dict] = None
-    project_id : Optional[str]=None
+    project_id: Optional[str] = None
 
     class Config:
         """Configuration for this pydantic object."""
