@@ -10,7 +10,7 @@ import streamlit as st
 #from watsonxlangchain import LangChainInterface
 
 # setup the app title
-st.title('Ask watsonx')
+st.title('State of Food Security and Nutrition in the World 2023')
 
 #Build a prompt input template to display the prompts
 prompt = st.chat_input('Pass Your Prompt Here')
@@ -18,4 +18,4 @@ prompt = st.chat_input('Pass Your Prompt Here')
 # If the user hits enter then
 if prompt:
     # Display the prompt
-    st.chat_message('user').markdown(prompt_)
+    st.chat_message('user').markdown(prompt)
