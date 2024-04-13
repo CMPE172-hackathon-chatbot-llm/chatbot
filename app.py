@@ -24,6 +24,27 @@ llm = LangChainInterface(
     },
     project_id='baa5d59f-e936-4dfa-9db1-6fac7fbef880')
 
+#custom data time
+@st.cache_resource
+def load_pdf():
+    pdf_name = 'SOFI-2023.pdf'
+    loaders = [PyPDFLoader(pdf_name)]
+    index = VectorstoreIndexCreator(
+        embedding = HuggingFaceEmbeddings(model_name='all-MiniLM-L12-v2'),
+        text_splitter=RecursiveCharacterTextSplitter(chunk_size=100, chunk_overlap=0)
+    ).from_loaders(loaders)
+    return index
+
+#actually load it
+index = load_pdf()
+
+#create chain of Q&A
+chain = RetrivalQA.from_chain_type(
+    llm=llm,
+    chain_type='stuff',
+    retriever=index.vectorstore.as_retriever(),
+    input_key='question'
+)
 
 # setup the app title
 st.title('State of Food Security and Nutrition in the World 2023')
@@ -44,3 +65,11 @@ if prompt:
     st.chat_message('user').markdown(prompt)
     #for prev prompts
     st.session_state.messages.append({'role':'user', 'content':prompt})
+    #send teh prompt to the llm
+    response = chain.run(prompt)
+    #show llm response
+    st.chat_message('assistant').markdown(response)
+    #store llm response
+    st.session_state.messages.append(
+        {'role':'assistant', 'content':response}
+    )
