@@ -1,8 +1,8 @@
 # Import Langchain dependenices
-from langchain.document_loaders import PyPDFLoader
 from langchain.indexes import VectorstoreIndexCreator
+from langchain_community.document_loaders import PyPDFLoader
+from langchain_community.embeddings import HuggingFaceEmbeddings
 from langchain.chains import  RetrievalQA
-from langchain.embeddings import HuggingFaceEmbeddings
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 # Bring in Streamlit for UI dev
 import streamlit as st
@@ -18,4 +18,4 @@ prompt = st.chat_input('Pass Your Prompt Here')
 # If the user hits enter then
 if prompt:
     # Display the prompt
-    st.chat_message('user').markdown(prompt_)
+    st.chat_message('user').markdown(prompt)
