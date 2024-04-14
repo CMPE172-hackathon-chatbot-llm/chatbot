@@ -38,6 +38,12 @@ watsonx_llm = WatsonxLLM(
     params=parameters,
 )
 
+# setup the app title
+st.title('Ask N.I.N.A.')
+
+# Adding a subheader as subtitle
+st.subheader('Niti’s Intelligence Natural Assistant')
+
 #custom data time
 @st.cache_resource
 def load_pdf():
@@ -51,12 +57,6 @@ def load_pdf():
 
 #actually load it
 index = load_pdf()
-
-# setup the app title
-st.title('Ask N.I.N.A.')
-
-# Adding a subheader as subtitle
-st.subheader('Niti’s Intelligence Natural Assistant')
 
 # Setup a session state message variable  to hold all old messages
 if 'messages' not in st.session_state:
