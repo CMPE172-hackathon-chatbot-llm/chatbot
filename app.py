@@ -38,6 +38,20 @@ watsonx_llm = WatsonxLLM(
     params=parameters,
 )
 
+#custom data time
+@st.cache_resource
+def load_pdf():
+    pdf_name = r'C:\Users\Gcrab\Downloads\SOFI-2023.pdf'
+    loaders = [PyPDFLoader(pdf_name)]
+    index = VectorstoreIndexCreator(
+        embedding = HuggingFaceEmbeddings(model_name='all-MiniLM-L12-v2'),
+        text_splitter=RecursiveCharacterTextSplitter(chunk_size=10000, chunk_overlap=0)
+    ).from_loaders(loaders)
+    return index
+
+#actually load it
+index = load_pdf()
+
 # setup the app title
 st.title('Ask N.I.N.A.')
 
