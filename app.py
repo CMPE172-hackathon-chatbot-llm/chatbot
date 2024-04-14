@@ -38,6 +38,30 @@ watsonx_llm = WatsonxLLM(
     params=parameters,
 )
 
+# This function loads the SOFI pdf
+@st.cache_resource
+def load_pdf():
+    # Define PDF
+    SOFI = 'SOFI-2023.pdf'
+    loaders = [PyPDFLoader(SOFI)]
+    # Create index - aka vector database - aka chromadb
+    index = VectorstoreIndexCreator(
+        embedding = HuggingFaceEmbeddings(model_name='all-MiniLM-L12-v2'),
+        text_splitter=RecursiveCharacterTextSplitter(chunk_size=100, chunk_overlap=0)
+    ).from_loaders(loaders)
+    # Return the vector database
+    return index
+# Load the SOFI pdf
+index = load_pdf()
+
+# Create a Q&A chain
+chain = RetrievalQA.from_chaintype(
+    llm=watsonx_llm,
+    chain_type='stuff',
+    retriever=index.vectorstore.as_retriever(),
+    input_key='question',
+)
+
 # setup the app title
 st.title('Ask F.O.O.D. Bot Anything!')
 
@@ -62,8 +86,8 @@ if prompt:
     st.chat_message('user').markdown(prompt)
     # Store the user prompt in state
     st.session_state.messages.append({'role':'user', 'content':prompt})
-    # send the prompt to llm
-    response = watsonx_llm(prompt)
+    # send the prompt to the PDF Q&A chain
+    response = chain.run(prompt)
     # show llm response
     st.chat_message('assistant').markdown(response)
     # store llm response in state
