@@ -63,10 +63,10 @@ chain = RetrievalQA.from_chain_type(
 )
 
 # setup the app title
-st.title('Ask F.O.O.D. Bot Anything!')
+st.title('Ask Food Bot Anything!')
 
 # Adding a subheader as subtitle
-st.subheader('The F.O.O.D. Bot is here to help you with your food-related questions!')
+st.subheader('The FOOD Bot is here to help you with your food-related questions!')
 
 # Setup a session state message variable  to hold all old messages
 if 'messages' not in st.session_state:
