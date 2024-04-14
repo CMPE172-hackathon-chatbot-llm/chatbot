@@ -47,7 +47,7 @@ def load_pdf():
     # Create index - aka vector database - aka chromadb
     index = VectorstoreIndexCreator(
         embedding = HuggingFaceEmbeddings(model_name='all-MiniLM-L12-v2'),
-        text_splitter=RecursiveCharacterTextSplitter(chunk_size=100, chunk_overlap=0)
+        text_splitter=RecursiveCharacterTextSplitter(chunk_size=500, chunk_overlap=100)
     ).from_loaders(loaders)
     # Return the vector database
     return index
@@ -55,7 +55,7 @@ def load_pdf():
 index = load_pdf()
 
 # Create a Q&A chain
-chain = RetrievalQA.from_chaintype(
+chain = RetrievalQA.from_chain_type(
     llm=watsonx_llm,
     chain_type='stuff',
     retriever=index.vectorstore.as_retriever(),
